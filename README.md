@@ -75,6 +75,7 @@ AI_Art_vs_Human_Art/
 │   ├── models/
 │   │   ├── __init__.py
 │   │   ├── efficientnet.py
+│   │   ├── xception.py
 │   │   └── vision_transformer.py
 │   ├── training/
 │   │   ├── __init__.py
@@ -101,14 +102,17 @@ AI_Art_vs_Human_Art/
 
 We will train and compare multiple models using transfer learning:
 
-| Model | Expected Accuracy |
-|-------|-------------------|
-| **EfficientNetB3** (Baseline) | 78-82% |
-| **EfficientNetB4** | 80-84% |
-| **Vision Transformer (ViT-B)** | 83-87% |
-| **Ensemble** (Optional) | 85-90% |
+| Model | Expected Accuracy | Notes |
+|-------|-------------------|-------|
+| **EfficientNetB3** (Baseline) | 78-82% | Good balance of speed and accuracy |
+| **EfficientNetB4** | 80-84% | Improved accuracy |
+| **Xception** | 85-90% | Gold standard for AI/deepfake detection - excels at texture & noise patterns |
+| **Vision Transformer (ViT-B)** | 83-87% | Transformer-based approach |
+| **Ensemble** (Optional) | 87-92% | Combine best models |
 
-Final production model target: **~87-90% accuracy**
+> 💡 **Why Xception?** Xception uses "depthwise separable convolutions" which are exceptionally good at detecting *texture* and *noise* patterns rather than just shapes. It's the architecture behind most successful DeepFake detectors and is particularly effective at spotting the "glossy" or "smooth" texture that AI models like Midjourney often produce.
+
+Final production model target: **~87-92% accuracy**
 
 ---
 
@@ -341,15 +345,16 @@ make run_api
 |-------|-----------------|---------------|
 | EfficientNetB3 (Baseline) | 78-82% | ~30 min |
 | EfficientNetB4 | 80-84% | ~45 min |
+| Xception | 85-90% | ~45 min |
 | Vision Transformer (ViT-B) | 83-87% | ~1 hour |
-| Final Model (Tuned/Ensemble) | 87-90% | ~1-2 hours |
+| Final Model (Tuned/Ensemble) | 87-92% | ~1-2 hours |
 
 ---
 
 ## 🛠️ Tech Stack
 
 - **Deep Learning**: TensorFlow / PyTorch
-- **Models**: EfficientNet, Vision Transformer (ViT)
+- **Models**: EfficientNet, Xception, Vision Transformer (ViT)
 - **Data Processing**: NumPy, Pandas, OpenCV
 - **Visualization**: Matplotlib, Seaborn
 - **API**: FastAPI
@@ -365,6 +370,7 @@ make run_api
 ## 📚 Resources
 
 - [EfficientNet Paper](https://arxiv.org/abs/1905.11946)
+- [Xception Paper - Depthwise Separable Convolutions](https://arxiv.org/abs/1610.02357)
 - [Vision Transformer Paper](https://arxiv.org/abs/2010.11929)
 - [Transfer Learning Guide](https://www.tensorflow.org/tutorials/images/transfer_learning)
 - [FastAPI Documentation](https://fastapi.tiangolo.com/)
