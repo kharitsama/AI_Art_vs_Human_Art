@@ -8,12 +8,12 @@
 
 ## 👥 Team Members
 
-| Name | GitHub | Role |
-|------|--------|------|
-| Gechen Ma | [@Gechen989898](https://github.com/Gechen989898) | Team Lead / ML Engineer |
-| Didier Peran Ganthier | [@didierganthier](https://github.com/didierganthier) | ML Engineer |
-| Alexis Kipiani | [@Alex-gitacc](https://github.com/Alex-gitacc) | Data Engineer |
-| Mame | [@kharitsama](https://github.com/kharitsama) | ML Engineer |
+| Name | GitHub |
+|------|--------|
+| Gechen Ma | [@Gechen989898](https://github.com/Gechen989898) |
+| Didier Peran Ganthier | [@didierganthier](https://github.com/didierganthier) |
+| Alexis Kipiani | [@Alex-gitacc](https://github.com/Alex-gitacc) |
+| Mame | [@kharitsama](https://github.com/kharitsama) |
 
 ---
 
@@ -47,10 +47,15 @@ AI_Art_vs_Human_Art/
 ├── Makefile
 ├── requirements.txt
 ├── setup.py
+├── Dockerfile
+├── docker-compose.yml
 ├── .env.sample
 ├── .gitignore
 ├── raw_data/
 │   ├── train/
+│   │   ├── ai/
+│   │   └── human/
+│   ├── val/
 │   │   ├── ai/
 │   │   └── human/
 │   └── test/
@@ -60,7 +65,7 @@ AI_Art_vs_Human_Art/
 │   ├── 01_data_exploration.ipynb
 │   ├── 02_preprocessing.ipynb
 │   ├── 03_model_training.ipynb
-│   └── 04_evaluation.ipynb
+│   └── 04_model_comparison.ipynb
 ├── ai_art_classifier/
 │   ├── __init__.py
 │   ├── data/
@@ -69,8 +74,6 @@ AI_Art_vs_Human_Art/
 │   │   └── preprocessing.py
 │   ├── models/
 │   │   ├── __init__.py
-│   │   ├── cnn_baseline.py
-│   │   ├── resnet.py
 │   │   ├── efficientnet.py
 │   │   └── vision_transformer.py
 │   ├── training/
@@ -82,84 +85,202 @@ AI_Art_vs_Human_Art/
 │   │   └── metrics.py
 │   └── api/
 │       ├── __init__.py
-│       └── fast_api.py
+│       ├── fast_api.py
+│       └── database.py
+├── streamlit_app/
+│   └── app.py
 ├── models/
-│   └── (saved model weights)
+│   └── (saved model weights: .h5, ONNX, TFLite)
 └── tests/
-    └── (unit tests)
+    └── (unit & integration tests)
 ```
 
 ---
 
-## 🧠 Models to Implement
+## 🧠 Models
 
-1. **CNN Baseline** - Custom Convolutional Neural Network
-2. **ResNet50** - Transfer Learning with ResNet
-3. **EfficientNetB0** - Transfer Learning with EfficientNet
-4. **Vision Transformer (ViT)** - Transformer-based approach
+We will train and compare multiple models using transfer learning:
+
+| Model | Expected Accuracy |
+|-------|-------------------|
+| **EfficientNetB3** (Baseline) | 78-82% |
+| **EfficientNetB4** | 80-84% |
+| **Vision Transformer (ViT-B)** | 83-87% |
+| **Ensemble** (Optional) | 85-90% |
+
+Final production model target: **~87-90% accuracy**
 
 ---
 
 ## 📅 Project Timeline (6 Weeks)
 
-### Week 1: Project Setup & Data Collection
-| Task | Assignee | Status |
-|------|----------|--------|
-| Set up GitHub repository & branch protection | Gechen | ⬜ |
-| Create project structure & Makefile | Didier | ⬜ |
-| Download and organize Tiny GenImage dataset | Alexis | ⬜ |
-| Set up virtual environment & requirements.txt | Didier | ⬜ |
-| Create Trello board with all tasks | Mame | ⬜ |
+### Week 1: Data Preparation & Model Baseline
 
-### Week 2: Data Exploration & Preprocessing
-| Task | Assignee | Status |
-|------|----------|--------|
-| Exploratory Data Analysis (EDA) notebook | Alexis | ⬜ |
-| Data visualization (class distribution, samples) | Alexis | ⬜ |
-| Implement data augmentation pipeline | Gechen | ⬜ |
-| Create data loader classes | Didier | ⬜ |
-| Implement train/val/test split logic | Mame | ⬜ |
-| Document data preprocessing steps | All | ⬜ |
+**Monday-Wednesday: Data Setup**
+- Download Tiny GenImage dataset from Kaggle
+- Explore dataset structure and document findings
+- Create 70/15/15 train/val/test split with stratification
+- Analyze class distribution and data quality
+- Set up data pipeline with augmentation
+- Initialize GitHub repository with project structure
+- Set up MLflow experiment tracking
+- Configure Python environment and requirements.txt
 
-### Week 3: Baseline Model Development
-| Task | Assignee | Status |
-|------|----------|--------|
-| Implement CNN baseline model | Gechen | ⬜ |
-| Implement ResNet transfer learning | Didier | ⬜ |
-| Create training pipeline with callbacks | Mame | ⬜ |
-| Set up experiment tracking (MLflow/W&B) | Alexis | ⬜ |
-| Train and evaluate CNN baseline | Gechen | ⬜ |
-| Train and evaluate ResNet model | Didier | ⬜ |
+**Thursday-Friday: Train Baseline Model**
+- Create and train EfficientNetB3 baseline model
+- Expected accuracy: 78-82%
+- Evaluate on validation set
+- Save model and document results
+- Create initial model comparison notebook
 
-### Week 4: Advanced Models & Optimization
-| Task | Assignee | Status |
-|------|----------|--------|
-| Implement EfficientNet model | Mame | ⬜ |
-| Implement Vision Transformer (ViT) | Alexis | ⬜ |
-| Hyperparameter tuning for best models | Gechen | ⬜ |
-| Cross-validation implementation | Didier | ⬜ |
-| Model comparison analysis | All | ⬜ |
-| Implement ensemble method (optional) | Gechen | ⬜ |
+> 🎯 **Friday EOD Deliverable:** Baseline model with ~80% accuracy
 
-### Week 5: API Development & Deployment
-| Task | Assignee | Status |
-|------|----------|--------|
-| Build FastAPI prediction endpoint | Didier | ⬜ |
-| Create Docker container | Gechen | ⬜ |
-| Implement image upload functionality | Mame | ⬜ |
-| Deploy API to cloud (GCP/AWS) | Alexis | ⬜ |
-| Write API documentation | Didier | ⬜ |
-| Load testing & optimization | Gechen | ⬜ |
+### Week 2: Model Comparison & Selection
 
-### Week 6: Demo, Testing & Presentation
-| Task | Assignee | Status |
-|------|----------|--------|
-| Build Streamlit/Gradio demo interface | Mame | ⬜ |
-| Write unit tests | Alexis | ⬜ |
-| Final model evaluation on test set | Gechen | ⬜ |
-| Prepare presentation slides | All | ⬜ |
-| Record demo video | Didier | ⬜ |
-| Final code review & documentation | All | ⬜ |
+**Monday-Wednesday: Train Additional Models (Parallel)**
+- Train Vision Transformer (ViT-B) model • Expected accuracy: 83-87%
+- Train EfficientNetB4 model • Expected accuracy: 80-84%
+- Document training logs and hyperparameters for each model
+- Track all experiments in MLflow
+
+**Thursday: Model Evaluation & Comparison**
+- Evaluate all 3 models on test set
+- Calculate accuracy, precision, recall, F1-score, ROC-AUC
+- Create confusion matrices for each model
+- Generate performance comparison table
+- Create ROC curves overlay visualization
+
+**Friday: Model Selection & Decision**
+- Decide on best single model or ensemble approach
+- Document decision-making rationale
+- Save selected model(s)
+
+> 🎯 **Friday EOD Deliverable:** Model comparison report and selected model(s)
+
+### Week 3: Hyperparameter Tuning & Final Model
+
+**Monday-Wednesday: Systematic Hyperparameter Tuning**
+- Test different learning rates (1e-5, 5e-5, 1e-4, 5e-4, 1e-3)
+- Test different batch sizes (16, 32, 64)
+- Test different training schedules and optimizers
+- Track all configurations in MLflow
+- Identify best hyperparameter combination
+
+**Thursday: Create Ensemble Model (Optional)**
+- Combine best performing models
+- Implement ensemble voting/averaging
+- Evaluate ensemble performance
+- Expected accuracy: 85-90%
+
+**Friday: Finalize Model**
+- Train final model with best hyperparameters
+- Evaluate on test set
+- Save final model in multiple formats (.h5, ONNX, TFLite)
+- Document all hyperparameters and training details
+- Create final model report
+
+> 🎯 **Friday EOD Deliverable:** Production-ready model with ~87-90% accuracy, saved in multiple formats
+
+### Week 4: REST API & Web Interface
+
+**Monday-Tuesday: Build REST API (FastAPI)**
+- Design API endpoints and request/response schemas
+- Implement `POST /predict` endpoint for single image
+- Implement `POST /batch-predict` endpoint for multiple images
+- Implement `GET /health` endpoint for health checks
+- Add comprehensive error handling
+- Create API documentation (auto-generated with Swagger/OpenAPI)
+- Test all API endpoints locally
+
+**Wednesday-Thursday: Build Web Interface (Streamlit)**
+- Create Streamlit app with page layout
+- Implement "Single Image" mode with upload and predictions
+- Implement "Batch Upload" mode for multiple images
+- Implement "From URL" mode for image URLs
+- Add confidence visualizations and gauges
+- Add results export to CSV
+- Style interface with custom CSS
+
+**Friday: Testing & Integration**
+- Test API endpoints with curl and Python requests
+- Test web interface with various image types
+- Verify predictions match between API and web interface
+- Test error handling for invalid inputs
+- Document API usage examples
+
+> 🎯 **Friday EOD Deliverable:** Working API + web interface, tested and ready
+
+### Week 5: Database, Docker & Monitoring
+
+**Monday-Tuesday: Database Setup**
+- Set up PostgreSQL database
+- Create Prediction table schema
+- Implement database models with SQLAlchemy
+- Add prediction saving to API endpoint
+- Create database migrations
+- Test database operations
+
+**Wednesday: Docker Containerization**
+- Create Dockerfile for API service
+- Create docker-compose.yml for multi-container setup
+- Build and test Docker images locally
+- Verify API and web interface work in containers
+- Set up environment variables and secrets management
+
+**Thursday: Logging & Monitoring**
+- Implement structured logging throughout application
+- Set up Prometheus metrics (prediction counter, latency, accuracy)
+- Create logging configuration with rotating file handlers
+- Add health check endpoint with database connectivity check
+- Set up log file rotation
+
+**Friday: Testing**
+- Write unit tests for API endpoints
+- Write integration tests with database
+- Write tests for data processing functions
+- Achieve >80% code coverage
+- Run full test suite
+
+> 🎯 **Friday EOD Deliverable:** Dockerized system with database, logging, monitoring, and comprehensive tests
+
+### Week 6: Cloud Deployment & Documentation
+
+**Monday-Tuesday: Cloud Deployment**
+- Choose cloud platform (AWS, GCP, or Azure)
+- Set up cloud infrastructure (container registry, compute resources)
+- Push Docker images to container registry
+- Deploy API service to cloud platform
+- Configure load balancing and auto-scaling
+- Set up SSL/TLS certificates
+- Test deployed system with real traffic
+
+**Wednesday: Final Testing & Optimization**
+- Test API performance in production
+- Test web interface against production API
+- Benchmark inference time and throughput
+- Monitor logs and metrics in production
+- Optimize performance if needed
+- Document any deployment-specific configurations
+
+**Thursday-Friday: Comprehensive Documentation**
+- Write detailed README with features and quick start
+- Document API endpoints and usage examples
+- Create deployment guides for AWS, GCP, and Azure
+- Write developer setup guide
+- Create troubleshooting guide
+- Document model performance metrics
+- Create architecture diagram
+- Write future maintenance guide
+
+**Friday: Final Review & Presentation**
+- Review all code for quality and consistency
+- Ensure all tests pass
+- Verify documentation is complete and accurate
+- Test entire system end-to-end
+- Prepare final project summary
+- Create project demo and walkthrough
+
+> 🎯 **Friday EOD Deliverable:** Production-deployed system with complete documentation
 
 ---
 
@@ -195,14 +316,14 @@ unzip tiny-genimage.zip -d raw_data/
 ### Training
 
 ```bash
-# Train baseline CNN
-make train_cnn
-
-# Train ResNet
-make train_resnet
+# Train EfficientNetB3 baseline
+make train_efficientnet_b3
 
 # Train all models
 make train_all
+
+# Run hyperparameter tuning
+make tune
 ```
 
 ### Running the API
@@ -218,31 +339,37 @@ make run_api
 
 | Model | Target Accuracy | Training Time |
 |-------|-----------------|---------------|
-| CNN Baseline | ~85% | ~30 min |
-| ResNet50 | ~92% | ~1 hour |
-| EfficientNetB0 | ~94% | ~1 hour |
-| ViT | ~95% | ~2 hours |
+| EfficientNetB3 (Baseline) | 78-82% | ~30 min |
+| EfficientNetB4 | 80-84% | ~45 min |
+| Vision Transformer (ViT-B) | 83-87% | ~1 hour |
+| Final Model (Tuned/Ensemble) | 87-90% | ~1-2 hours |
 
 ---
 
 ## 🛠️ Tech Stack
 
 - **Deep Learning**: TensorFlow / PyTorch
+- **Models**: EfficientNet, Vision Transformer (ViT)
 - **Data Processing**: NumPy, Pandas, OpenCV
 - **Visualization**: Matplotlib, Seaborn
 - **API**: FastAPI
-- **Deployment**: Docker, GCP/AWS
-- **Demo**: Streamlit / Gradio
-- **Experiment Tracking**: MLflow / Weights & Biases
+- **Database**: PostgreSQL, SQLAlchemy
+- **Deployment**: Docker, docker-compose, AWS/GCP/Azure
+- **Demo**: Streamlit
+- **Experiment Tracking**: MLflow
+- **Monitoring**: Prometheus
+- **Testing**: pytest
 
 ---
 
 ## 📚 Resources
 
-- [CIFAKE Paper](https://arxiv.org/abs/2303.14126)
-- [Vision Transformer Paper](https://arxiv.org/abs/2010.11929)
 - [EfficientNet Paper](https://arxiv.org/abs/1905.11946)
+- [Vision Transformer Paper](https://arxiv.org/abs/2010.11929)
 - [Transfer Learning Guide](https://www.tensorflow.org/tutorials/images/transfer_learning)
+- [FastAPI Documentation](https://fastapi.tiangolo.com/)
+- [Streamlit Documentation](https://docs.streamlit.io/)
+- [MLflow Documentation](https://mlflow.org/docs/latest/index.html)
 
 ---
 
