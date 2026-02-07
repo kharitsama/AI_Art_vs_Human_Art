@@ -31,11 +31,51 @@ With the rise of AI image generation tools (DALL-E, Midjourney, Stable Diffusion
 
 ## 📊 Dataset
 
-**Tiny GenImage** - A lightweight version of the GenImage dataset, perfect for training models on modern diffusion-generated images.
+**Tiny GenImage** - A lightweight version of the GenImage dataset featuring images from multiple modern AI generators.
 
-| Dataset | Description | Link |
-|---------|-------------|------|
-| **Tiny GenImage** | Compact dataset featuring AI-generated images from modern diffusion models (Stable Diffusion, Midjourney, etc.) vs real images | [Kaggle](https://www.kaggle.com/datasets/yangsangtai/tiny-genimage) |
+| Dataset | Size | Link |
+|---------|------|------|
+| **Tiny GenImage** | 8.36 GB | [Kaggle](https://www.kaggle.com/datasets/yangsangtai/tiny-genimage) |
+
+### Dataset Structure
+
+The dataset is pre-organized with `train` and `val` splits, containing images labeled as `ai` (generated) vs `nature` (real).
+
+**AI Generators Included:**
+| Generator | Folder | Type |
+|-----------|--------|------|
+| BigGAN | `imagenet_ai_0419_biggan` | GAN-based |
+| VQDM | `imagenet_ai_0419_vqdm` | Diffusion |
+| Stable Diffusion v5 | `imagenet_ai_0424_sdv5` | Diffusion |
+| Wukong | `imagenet_ai_0424_wukon` | Diffusion |
+| ADM | `imagenet_ai_0508_adm` | Diffusion |
+| GLIDE | `imagenet_glide` | Diffusion |
+| Midjourney | `imagenet_midjourney` | Diffusion |
+
+```
+tiny_genimage/
+├── imagenet_ai_0419_biggan/
+│   ├── train/
+│   │   ├── ai/
+│   │   └── nature/
+│   └── val/
+│       ├── ai/
+│       └── nature/
+├── imagenet_ai_0419_vqdm/
+│   └── ...
+├── imagenet_ai_0424_sdv5/
+│   └── ...
+├── imagenet_ai_0424_wukon/
+│   └── ...
+├── imagenet_ai_0508_adm/
+│   └── ...
+├── imagenet_glide/
+│   └── ...
+└── imagenet_midjourney/
+    └── ...
+```
+
+> 💡 **Note**: Having multiple AI generators allows us to test model generalization across different generation techniques (GAN vs Diffusion models).
 
 ---
 
@@ -52,15 +92,14 @@ AI_Art_vs_Human_Art/
 ├── .env.sample
 ├── .gitignore
 ├── raw_data/
-│   ├── train/
-│   │   ├── ai/
-│   │   └── human/
-│   ├── val/
-│   │   ├── ai/
-│   │   └── human/
-│   └── test/
-│       ├── ai/
-│       └── human/
+│   └── tiny_genimage/
+│       ├── imagenet_ai_0419_biggan/
+│       ├── imagenet_ai_0419_vqdm/
+│       ├── imagenet_ai_0424_sdv5/
+│       ├── imagenet_ai_0424_wukon/
+│       ├── imagenet_ai_0508_adm/
+│       ├── imagenet_glide/
+│       └── imagenet_midjourney/
 ├── notebooks/
 │   ├── 01_data_exploration.ipynb
 │   ├── 02_preprocessing.ipynb
