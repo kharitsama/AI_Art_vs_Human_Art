@@ -6,3 +6,5 @@ merged_data/
 *.keras
 *.h5
 *.v2
+*.json
+*.safetensors
