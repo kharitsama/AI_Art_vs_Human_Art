@@ -91,7 +91,7 @@ st.markdown("""
 
 # Constants
 IMG_SIZE = (128, 128)
-MODEL_PATH = "basic_cnn.keras"
+MODEL_PATH = "models/basic_cnn.keras"
 
 
 @st.cache_resource
